@@ -1,16 +1,16 @@
 {
-  "name": "@falkenslab/moodle-mcp",
-  "version": "0.4.0",
-  "description": "MCP server for AI agents to work in Moodle as you, through your own browser session: domain tools, students as aliases, limits only you can loosen",
+  "name": "@triffon/moodle-mcp",
+  "version": "0.4.0-firefox.1",
+  "description": "Fork of @falkenslab/moodle-mcp with Firefox as a browser channel, until it is merged upstream. MCP server for AI agents to work in Moodle as you, through your own browser session: domain tools, students as aliases, limits only you can loosen",
   "author": "Falkenslab",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/falkenslab/moodle-mcp.git"
+    "url": "git+https://github.com/triffon/moodle-mcp.git"
   },
-  "homepage": "https://github.com/falkenslab/moodle-mcp#readme",
+  "homepage": "https://github.com/triffon/moodle-mcp/tree/release/firefox#readme",
   "bugs": {
-    "url": "https://github.com/falkenslab/moodle-mcp/issues"
+    "url": "https://github.com/triffon/moodle-mcp/issues"
   },
   "keywords": [
     "mcp",

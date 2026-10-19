@@ -17,6 +17,8 @@ Your students stay anonymous to the AI, and you decide what it can do.
 
 </div>
 
+> **This is a fork:** `@triffon/moodle-mcp` is [`@falkenslab/moodle-mcp`](https://www.npmjs.com/package/@falkenslab/moodle-mcp) 0.4.0 with Firefox as a browser channel (`MOODLE_MCP_CHANNEL=firefox`), on the driver's fork [`@triffon/moodle-driver`](https://www.npmjs.com/package/@triffon/moodle-driver), published until [falkenslab/moodle-driver#89](https://github.com/falkenslab/moodle-driver/pull/89) is released and the change reaches moodle-mcp. To use it, write `@triffon/moodle-mcp` where the commands below say `@falkenslab/moodle-mcp`. Use the original package once Firefox is in it.
+
 moodle-mcp is an [MCP](https://modelcontextprotocol.io) server that gives an AI agent such as Claude or Codex about 230 tools for Moodle: grade with your rubrics, build a quiz from your questions, answer the forum, see what's due this week. It works through a real browser on your computer, logged in as you, on any Moodle 4.5 or 5.x site.
 
 ## ✨ Why moodle-mcp
