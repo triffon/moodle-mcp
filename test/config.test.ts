@@ -103,6 +103,18 @@ describe("loadConfig", () => {
     assert.equal(config.trail, "realistic");
   });
 
+  it("gives Firefox a data folder of its own, but keeps a profile folder the person chose", () => {
+    const config = load(["--channel", "Firefox"], { MOODLE_MCP_SITES: "a=https://a.example.org,b=https://b.example.org" });
+    const dataDir = path.join(homedir(), ".moodle-mcp", "firefox");
+    assert.equal(config.channel, "firefox");
+    assert.equal(config.dataDir, dataDir);
+    assert.deepEqual(
+      config.sites.map((site) => site.profileDir),
+      [path.join(dataDir, "profile"), path.join(dataDir, "sites", "b", "profile")],
+    );
+    assert.equal(load(["--channel", "firefox", "--profile-dir", PROFILE]).profileDir, PROFILE);
+  });
+
   it("drops the query and fragment from the site URL", () => {
     assert.equal(load(["--url", "http://localhost:8080/my/?x=1#top"]).moodleUrl, "http://localhost:8080/my/");
   });
@@ -118,7 +130,7 @@ describe("loadConfig", () => {
   });
 
   it("rejects unknown channels, headless values and options", () => {
-    assert.throws(() => load(["--url", "http://localhost:8080", "--channel", "firefox"]), ConfigError);
+    assert.throws(() => load(["--url", "http://localhost:8080", "--channel", "safari"]), ConfigError);
     assert.throws(() => load(["--url", "http://localhost:8080"], { MOODLE_MCP_HEADLESS: "maybe" }), ConfigError);
     assert.throws(() => load(["--trail", "slow"]), ConfigError);
     assert.throws(() => load(["--password", "x"]), ConfigError);

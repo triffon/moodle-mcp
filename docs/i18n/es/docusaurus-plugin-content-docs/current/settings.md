@@ -65,9 +65,9 @@ Cada ajuste también puede ser un argumento de línea de comandos después del n
 | `MOODLE_MCP_ADVANCED` | `--advanced` | `false` | `true` añade las herramientas avanzadas: BigBlueButton, competencias, herramientas externas (LTI), el banco de contenido, notas y bloques del curso. Consulta [Limitar al agente](./limits.md#herramientas-avanzadas). |
 | `MOODLE_MCP_SCOPES` | `--scopes` | `all` | Los tipos de herramientas: un perfil o una lista de ámbitos. Consulta [Limitar al agente](./limits.md#ámbitos). |
 | `MOODLE_MCP_PROFILE_DIR` | `--profile-dir` | `~/.moodle-mcp/profile` | La carpeta del perfil del navegador que guarda tu sesión (la del primer sitio, si hay varios). Dentro de un plugin de Claude Code, la guarda en su lugar la carpeta de datos del plugin. |
-| `MOODLE_MCP_CHANNEL` | `--channel` | Edge, después Chrome, después Chromium | Qué navegador usar: `msedge`, `chrome` o `chromium`. |
+| `MOODLE_MCP_CHANNEL` | `--channel` | Edge, después Chrome, después Chromium | Qué navegador usar: `msedge`, `chrome`, `chromium` o `firefox`. Firefox es la copia propia de moodle-mcp, descargada la primera vez, no el Firefox que puedas tener; guarda sus sesiones en `~/.moodle-mcp/firefox`, así que inicias sesión otra vez, una sola vez. |
 | `MOODLE_MCP_HEADLESS` | `--headless` / `--headed` | `true` | `false` trabaja siempre con una ventana visible. Para iniciar sesión siempre se muestra una. |
-| `MOODLE_MCP_DOWNLOAD_BROWSER` | `--no-download-browser` | `true` | `false` no descarga nunca Chromium cuando no hay Edge ni Chrome. |
+| `MOODLE_MCP_DOWNLOAD_BROWSER` | `--no-download-browser` | `true` | `false` no descarga nunca Chromium cuando no hay Edge ni Chrome, ni Firefox cuando lo elegiste. |
 | `MOODLE_MCP_TRAIL` | `--trail` | `realistic` | Las actividades hechas como alumno: `realistic` (páginas reales, al ritmo de un lector, para que Moodle registre las visitas y la finalización) o `fast`. |
 
 Un ajuste vacío, o que tu aplicación pasa como un `${…}` sin sustituir (como hace Codex con los ajustes de un plugin), cuenta como no puesto: se aplica su valor por defecto, y `server_info` lista los que llegaron así. Sin sitio, el agente te pide la dirección de tu Moodle y la añade.

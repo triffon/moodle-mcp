@@ -33,9 +33,9 @@ export interface Config {
   moodleUrl: string | undefined;
   /** The browser's persistent profile, absolute (ADR-002). */
   profileDir: string;
-  /** The browser to launch; `undefined` tries the system's, then the downloaded Chromium. */
+  /** The browser to launch; `undefined` tries the system's, then the downloaded Chromium. Firefox only when chosen. */
   channel: Channel | undefined;
-  /** Whether Chromium may be downloaded when no system browser is found (ADR-001). */
+  /** Whether Chromium (or Firefox, when chosen) may be downloaded when it's missing (ADR-001). */
   downloadBrowser: boolean;
   /** Whether the browser runs without a window (the login tool always shows one). */
   headless: boolean;
@@ -98,9 +98,10 @@ Options (each overrides its environment variable):
                         {"name": "url" | {"url": "…"}}; the first is active
   --profile-dir <dir>   Browser profile folder (first site)  MOODLE_MCP_PROFILE_DIR (default: profile in the data folder,
                         CLAUDE_PLUGIN_DATA or ~/.moodle-mcp)
-  --channel <name>      Browser: msedge, chrome or chromium  MOODLE_MCP_CHANNEL (default: msedge, then chrome, then chromium)
+  --channel <name>      Browser: msedge, chrome, chromium    MOODLE_MCP_CHANNEL (default: msedge, then chrome, then chromium)
+                        or firefox (Playwright's, downloaded; its own data folder)
   --headless / --headed Run the browser without a window     MOODLE_MCP_HEADLESS (default: true)
-  --no-download-browser Never download Chromium              MOODLE_MCP_DOWNLOAD_BROWSER (default: true)
+  --no-download-browser Never download Chromium or Firefox   MOODLE_MCP_DOWNLOAD_BROWSER (default: true)
   --trail <mode>        Student tools: realistic or fast     MOODLE_MCP_TRAIL (default: realistic)
   --scopes <list>       Kinds of tools: a profile (all, teacher, student, content) or scopes
                         (content, student-data, grading, communication, as-student, browser)
@@ -220,8 +221,11 @@ export function loadConfig(argv: string[], env: NodeJS.ProcessEnv, packageRoot: 
   const downloadBrowser = pickBoolean(values["no-download-browser"] ? false : undefined, "MOODLE_MCP_DOWNLOAD_BROWSER", env, unexpanded);
   const advanced = pickBoolean(values.advanced ? true : undefined, "MOODLE_MCP_ADVANCED", env, unexpanded, false);
 
+  const browserChannel = channel ? parseChannel(channel.value) : undefined;
   // The data folder is the plugin's when the server runs as one: each plugin its own sessions, gone with it (ADR-021).
-  const dataDir = path.resolve(given(env.CLAUDE_PLUGIN_DATA, "CLAUDE_PLUGIN_DATA", unexpanded)?.trim() || path.join(homedir(), ".moodle-mcp"));
+  const baseDataDir = path.resolve(given(env.CLAUDE_PLUGIN_DATA, "CLAUDE_PLUGIN_DATA", unexpanded)?.trim() || path.join(homedir(), ".moodle-mcp"));
+  // Firefox keeps its own kind of profile: a folder of its own keeps its profiles and saved sites apart from a Chromium-based browser's.
+  const dataDir = browserChannel === "firefox" ? path.join(baseDataDir, "firefox") : baseDataDir;
   const mainProfile = parseProfileDir(profile?.value ?? path.join(dataDir, "profile"), packageRoot);
   const sites = configuredSites(url ? parseMoodleUrl(url.value) : undefined, sitesSetting ? parseSitesSetting(sitesSetting.value) : [], mainProfile, dataDir);
   const urlSource = url ? url.source : sitesSetting?.source;
@@ -229,7 +233,7 @@ export function loadConfig(argv: string[], env: NodeJS.ProcessEnv, packageRoot: 
   return {
     moodleUrl: sites[0]?.url,
     profileDir: sites[0]?.profileDir ?? mainProfile,
-    channel: channel ? parseChannel(channel.value) : undefined,
+    channel: browserChannel,
     headless: headless.value,
     downloadBrowser: downloadBrowser.value,
     trail: trail ? parseTrail(trail.value) : "realistic",

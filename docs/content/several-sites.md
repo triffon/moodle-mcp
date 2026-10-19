@@ -69,6 +69,7 @@ Each site has its own browser profile, so its own session:
 - The first site keeps the usual one, `~/.moodle-mcp/profile` (or `MOODLE_MCP_PROFILE_DIR`): if you already used moodle-mcp, you don't log in again.
 - Every other site's is in `~/.moodle-mcp/sites/<name>/profile`, and the sites you added while working are listed in `~/.moodle-mcp/sites.json`.
 - When moodle-mcp runs inside a Claude Code plugin, all of it goes in the plugin's own data folder instead, and is deleted with the plugin.
+- With Firefox (`MOODLE_MCP_CHANNEL=firefox`), all of it goes in a `firefox` folder inside that one (`~/.moodle-mcp/firefox/profile` and so on): Firefox can't use the other browsers' profiles.
 
 ## Privacy and limits
 

@@ -10,7 +10,7 @@ const HINTS: Partial<Record<MoodleError["code"], (message: string) => string>> =
   "login-window-closed": (message) => `${message} Call login again when the person is ready.`,
   "browser-downloading": (message) => `${message} Tell the person: the server needs a browser first.`,
   "no-display": (message) => `${message} For this server: MOODLE_MCP_HEADLESS=true, or show_browser only where there's a screen.`,
-  "browser-not-found": (message) => `${message} For this server: MOODLE_MCP_CHANNEL chooses the browser, MOODLE_MCP_DOWNLOAD_BROWSER=true lets it download Chromium.`,
+  "browser-not-found": (message) => `${message} For this server: MOODLE_MCP_CHANNEL chooses the browser, MOODLE_MCP_DOWNLOAD_BROWSER=true lets it download Chromium (or Firefox, when chosen).`,
   // The site's Moodle is too old for this, or an administrator turned the feature off: nothing the agent can work around.
   "not-available": (message) => `${message} Tell the person this site can't do it; don't try another way.`,
   "badges-disabled": (message) => `${message} Tell the person: a site administrator turns it on.`,

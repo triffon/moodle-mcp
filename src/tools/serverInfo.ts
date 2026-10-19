@@ -1,4 +1,4 @@
-import { chromium } from "playwright-core";
+import { chromium, firefox } from "playwright-core";
 import { z } from "zod";
 import { redactUrl } from "../config.js";
 import { PACKAGE_NAME, PACKAGE_VERSION } from "../version.js";
@@ -16,9 +16,9 @@ export const serverInfoSchema = {
   sites: z.array(z.string()).describe("Every site's name; use_site switches"),
   dataDir: z.string().describe("The server's data folder: the sites added at run time, and the profiles of every site but the first"),
   profileDir: z.string().describe("The browser's persistent profile folder"),
-  channel: z.string().describe('The configured browser: "msedge", "chrome", "chromium" or "auto" (Edge, then Chrome, then the downloaded Chromium)'),
+  channel: z.string().describe('The configured browser: "msedge", "chrome", "chromium", "firefox" (Playwright\'s own) or "auto" (Edge, then Chrome, then the downloaded Chromium)'),
   headless: z.boolean(),
-  downloadBrowser: z.boolean().describe("Whether Chromium may be downloaded when no system browser is found"),
+  downloadBrowser: z.boolean().describe("Whether Chromium (or Firefox, when chosen) may be downloaded when it's missing"),
   trail: z.enum(["realistic", "fast"]).describe("How student tools view and do things: through the real pages at a human pace, or as fast as possible"),
   scopes: z.array(z.enum(SCOPES)).describe("The kinds of tools in force (ADR-015), student data's blocks applied"),
   studentData: z.enum(STUDENT_DATA_LEVELS).describe("How others' data reaches the agent: block (no tools on it), pseudonymize or clear (ADR-016)"),
@@ -33,7 +33,8 @@ export const serverInfoSchema = {
   browserOpen: z.boolean().describe("Whether the browser is running"),
   openChannel: z.string().optional().describe("The browser actually running, if any"),
   chromiumPath: z.string().optional().describe("Where the downloaded Chromium is, when it's the one running"),
-  chromiumDownload: z.enum(["downloading", "failed"]).optional().describe("Whether Chromium is being downloaded, or the last download failed"),
+  firefoxPath: z.string().optional().describe("Where the downloaded Firefox is, when it's the one running"),
+  chromiumDownload: z.enum(["downloading", "failed"]).optional().describe("Whether Chromium (or Firefox, when chosen) is being downloaded, or the last download failed"),
   node: z.string(),
 };
 
@@ -65,6 +66,7 @@ export function serverInfo({ config, browser }: ToolContext): ServerInfo {
     browserOpen: openChannel !== undefined,
     openChannel,
     chromiumPath: openChannel === "chromium" ? chromium.executablePath() : undefined,
+    firefoxPath: openChannel === "firefox" ? firefox.executablePath() : undefined,
     chromiumDownload: browser.chromiumDownload(),
     node: process.version,
   };

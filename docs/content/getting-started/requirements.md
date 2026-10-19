@@ -29,6 +29,8 @@ moodle-mcp works through a real browser, logged in as you. It uses **Microsoft E
 
 If you have neither, it downloads its own copy of Chromium (about 180 MB) the first time it needs a browser. You don't have to do anything.
 
+If you prefer Firefox, set `MOODLE_MCP_CHANNEL` to `firefox` (see [Settings](../settings.md)). moodle-mcp then downloads its own copy of Firefox the first time: it can't work through the Firefox you may have installed.
+
 :::tip
 The browser it uses has its own profile, separate from your everyday browsing: your bookmarks, history and other sessions are never touched.
 :::

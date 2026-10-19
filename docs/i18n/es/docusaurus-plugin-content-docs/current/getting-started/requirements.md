@@ -29,6 +29,8 @@ moodle-mcp trabaja a través de un navegador real, con tu sesión iniciada. Usa 
 
 Si no tienes ninguno, descarga su propia copia de Chromium (unos 180 MB) la primera vez que necesita un navegador. No tienes que hacer nada.
 
+Si prefieres Firefox, pon `MOODLE_MCP_CHANNEL` a `firefox` (consulta [Ajustes](../settings.md)). moodle-mcp descarga entonces su propia copia de Firefox la primera vez: no puede trabajar con el Firefox que tengas instalado.
+
 :::tip
 El navegador que usa tiene su propio perfil, separado de tu navegación de siempre: tus marcadores, tu historial y tus otras sesiones no se tocan nunca.
 :::
